@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <script src="../three.min.js"></script>
+        <script>
+            <!-- 回転の中心位置の変更テスト -->
+            window.addEventListener('load', init);
+        
+            function init() {
+        
+              // サイズを指定
+              const width = 960;
+              const height = 540;
+        
+              // レンダラーを作成
+              const renderer = new THREE.WebGLRenderer({
+                canvas: document.querySelector('#myCanvas')
+              });
+              renderer.setPixelRatio(window.devicePixelRatio);
+              renderer.setSize(width, height);
+        
+              // シーンを作成
+              const scene = new THREE.Scene();
+        
+              // カメラを作成
+              const camera = new THREE.PerspectiveCamera(45, width / height);
+              camera.position.set(0, 0, +1000);
+              
+              //グループを作成
+              const group0 = new THREE.Group();
+              scene.add(group0);
+              //座標軸を作成
+              let axis = new THREE.AxesHelper(1000);
+              axis.position.set(0,0,0);
+              scene.add(axis);
+              
+              // 箱を作成
+              const geometry = new THREE.BoxGeometry(200, 100, 100);
+              const material = new THREE.MeshNormalMaterial();
+              const box = new THREE.Mesh(geometry, material);
+              box.position.set(100,0,0);//ローカル座標になる
+              group0.add(box);
+              group0.position.set(30,0,0);
+              //scene.add(box);
+              tick();
+        
+              // 毎フレーム時に実行されるループイベントです
+              function tick() {
+                
+               //box.rotation.x += 0.01;
+                group0.rotation.z += 0.01;
+                renderer.render(scene, camera); // レンダリング
+        
+                requestAnimationFrame(tick);
+              }
+            }
+        </script>
+    </head>
+
+    <body>
+       <p id="test">aaaa</p>
+        <input type="range" min="-90" max="90" value="0" id="slider">
+        <canvas id="myCanvas"></canvas>
+        <script type="text/javascript">
+              var a = document.querySelector("#test");
+              console.log(a);
+        </script>
+    </body>
+</html>
